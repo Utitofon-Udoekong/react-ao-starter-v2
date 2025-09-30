@@ -33,7 +33,7 @@ A powerful, gamified task management application built with AO (Arweave Operatin
 ### Prerequisites
 - Node.js 18+ and npm/yarn/pnpm
 - ArConnect wallet extension (or compatible Arweave wallet)
-- ao-forge CLI for AO process deployment
+- ao-forge CLI for AO process management
 
 ### 1. Install Dependencies
 \`\`\`bash
@@ -44,15 +44,13 @@ yarn install
 pnpm install
 \`\`\`
 
-### 2. Deploy the AO Process
+### 2. Start the AO Process
 \`\`\`bash
-# Start aos CLI
-aos taskmaster
+# Start the AO process using ao-forge CLI
+ao-forge process start
 
-# Load the TaskMaster process
-.load ao/task-process.lua
-
-# Copy the Process ID - you'll need it for the frontend
+# The process will automatically load your Lua files and start
+# Copy the Process ID from the output - you'll need it for the frontend
 \`\`\`
 
 ### 3. Start Development Server
@@ -69,6 +67,36 @@ pnpm dev
 2. Click "Connect Arweave Wallet" and approve the connection
 3. Enter your AO Process ID from step 2
 4. Start creating and managing your tasks!
+
+## 🔧 ao-forge CLI Integration
+
+This project is fully integrated with the ao-forge CLI for streamlined AO development:
+
+### Process Management
+\`\`\`bash
+# Start an AO process (automatically loads Lua files)
+ao-forge process start
+
+# List running processes
+ao-forge process list
+
+# Stop a process
+ao-forge process stop
+\`\`\`
+
+### Development Workflow
+\`\`\`bash
+# Start development server with AO integration
+ao-forge dev
+
+# This will start both the React dev server and AO process
+\`\`\`
+
+### Configuration
+The project includes an \`ao.config.yml\` file that ao-forge uses to:
+- Automatically detect and load Lua files
+- Configure process names and settings
+- Manage AO process lifecycle
 
 ## 🏗️ Project Structure
 
@@ -92,6 +120,7 @@ pnpm dev
 ├── public/                   # Static assets
 ├── index.html               # HTML entry point
 ├── vite.config.ts           # Vite configuration
+├── ao.config.yml             # ao-forge configuration
 ├── package.json             # Dependencies and scripts
 └── README.md                # This file
 \`\`\`
@@ -176,12 +205,10 @@ This project demonstrates key AO development concepts:
 
 ### Testing
 \`\`\`bash
-# Test AO process
-aos taskmaster
-.load ao/task-process.lua
-.spawn
+# Test AO process using ao-forge CLI
+ao-forge process start
 
-# Test individual actions
+# Test individual actions in the AOS CLI
 Send({Target = ao.id, Action = "CreateTask", Data = '{"title": "Test", "priority": "high"}'})
 Send({Target = ao.id, Action = "GetTasks", Data = "get"})
 \`\`\`
